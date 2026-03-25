@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amigo Express – Deli & Market · Danbury, CT</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1B6B3A;
+    --green-light: #2A8F50;
+    --yellow: #F5C518;
+    --red: #C0392B;
+    --cream: #FAF6EE;
+    --warm: #F2EAD8;
+    --dark: #1A1A18;
+    --text: #2C2C2A;
+    --muted: #888880;
+    --white: #FFFFFF;
+    --card: #FFFFFF;
+    --border: #E8E0CE;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+  }
+
+  /* ── LANG BAR ── */
+  .lang-bar {
+    background: var(--green);
+    padding: 8px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+  .lang-label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.6); margin-right: 6px; }
+  .lang-btn {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 4px 13px;
+    border: 1px solid rgba(255,255,255,.3);
+    background: transparent;
+    color: rgba(255,255,255,.7);
+    cursor: pointer;
+    border-radius: 20px;
+    transition: all .2s;
+  }
+  .lang-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+  .lang-btn.active { background: var(--yellow); border-color: var(--yellow); color: var(--dark); }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+  .header-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(27,107,58,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 30%, rgba(245,197,24,0.15) 0%, transparent 50%);
+  }
+  .header-pattern {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 40px,
+      rgba(255,255,255,.02) 40px, rgba(255,255,255,.02) 41px
+    ), repeating-linear-gradient(
+      90deg, transparent, transparent 40px,
+      rgba(255,255,255,.02) 40px, rgba(255,255,255,.02) 41px
+    );
+    pointer-events: none;
+  }
+  .header-inner {
+    position: relative;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 52px 32px 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 28px;
+  }
+  .logo-block {}
+  .logo-tag {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--dark);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  .logo-name {
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 700;
+    font-size: clamp(40px, 6vw, 72px);
+    color: var(--white);
+    line-height: .95;
+    letter-spacing: -.01em;
+  }
+  .logo-name span { color: var(--yellow); }
+  .logo-sub {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.45);
+    margin-top: 10px;
+  }
+  .header-right { text-align: right; }
+  .hours-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 6px;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+  }
+  .hours-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 6px #4ade80; flex-shrink: 0; }
+  .hours-text { font-size: 13px; color: rgba(255,255,255,.8); line-height: 1.5; }
+  .hours-text strong { color: #fff; display: block; font-size: 14px; }
+  .header-addr { font-size: 13px; color: rgba(255,255,255,.45); }
+
+  /* ── HERO STRIP ── */
+  .hero-strip {
+    background: var(--yellow);
+    padding: 15px 28px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--dark);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .hero-strip span { margin: 0 16px; }
+
+  /* ── SECTION ── */
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 64px 32px; }
+  .sec-eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .sec-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 36px;
+    line-height: 1.1;
+  }
+
+  /* ── MENU HIGHLIGHTS ── */
+  .menu-bg { background: var(--warm); }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .menu-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: transform .2s, box-shadow .2s;
+    cursor: default;
+  }
+  .menu-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+  .menu-icon { font-size: 36px; margin-bottom: 12px; display: block; }
+  .menu-name {
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .menu-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ── FEATURES ── */
+  .feat-bg { background: var(--green); }
+  .feat-bg .sec-eyebrow { color: var(--yellow); }
+  .feat-bg .sec-title { color: var(--white); }
+  .feat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .feat-card {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px;
+    padding: 28px 22px;
+  }
+  .feat-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+  .feat-title { font-weight: 800; font-size: 16px; color: var(--white); margin-bottom: 6px; }
+  .feat-desc { font-size: 13px; color: rgba(255,255,255,.6); line-height: 1.6; }
+
+  /* ── REVIEWS ── */
+  .reviews-bg { background: var(--cream); }
+  .rating-bar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: var(--green);
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .big-score {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--white);
+  }
+  .score-stars { font-size: 22px; color: var(--yellow); letter-spacing: 2px; }
+  .score-note { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 4px; }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .rc {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+    border-top: 3px solid var(--yellow);
+  }
+  .rc-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .rc-name { font-weight: 800; font-size: 15px; color: var(--dark); }
+  .rc-date { font-size: 11px; color: var(--muted); text-align: right; line-height: 1.4; }
+  .rc-stars { font-size: 14px; color: var(--yellow); margin-bottom: 9px; letter-spacing: 1px; }
+  .rc-body { font-size: 13.5px; color: #555; line-height: 1.65; }
+  .rc-translated { font-size: 11px; color: var(--muted); margin-top: 6px; font-style: italic; }
+
+  /* ── CONTACT ── */
+  .contact-bg { background: var(--warm); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
+  @media(max-width:680px){ .contact-grid { grid-template-columns: 1fr; } }
+  .info-list { display: flex; flex-direction: column; gap: 20px; }
+  .info-item { display: flex; gap: 14px; align-items: flex-start; }
+  .ii-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .ii-label { font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+  .ii-val { font-size: 14.5px; color: var(--dark); line-height: 1.6; font-weight: 600; }
+  .ii-val a { color: var(--green); text-decoration: none; }
+  .ii-val a:hover { text-decoration: underline; }
+  .map-frame { width: 100%; height: 320px; border: 0; border-radius: 10px; display: block; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    padding: 32px;
+    text-align: center;
+  }
+  .foot-logo {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .foot-logo span { color: var(--yellow); }
+  footer p { font-size: 12px; color: rgba(255,255,255,.35); }
+
+  /* ── LANG SWITCH ── */
+  [data-lang] { display: none !important; }
+  .lang-en [data-lang="en"], .lang-es [data-lang="es"], .lang-pt [data-lang="pt"] { display: revert !important; }
+  span[data-lang], a[data-lang] { display: none !important; }
+  .lang-en span[data-lang="en"], .lang-en a[data-lang="en"],
+  .lang-es span[data-lang="es"], .lang-es a[data-lang="es"],
+  .lang-pt span[data-lang="pt"], .lang-pt a[data-lang="pt"] { display: inline !important; }
+
+  @keyframes rise { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+  .fade { animation: rise .6s ease both; }
+  .d1{animation-delay:.05s} .d2{animation-delay:.18s}
+</style>
+</head>
+<body class="lang-en">
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <span class="lang-label">🌐</span>
+  <button class="lang-btn active" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" onclick="setLang('es')">ES</button>
+  <button class="lang-btn" onclick="setLang('pt')">PT</button>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-bg"></div>
+  <div class="header-pattern"></div>
+  <div class="header-inner">
+    <div class="logo-block fade d1">
+      <div class="logo-tag">Deli &amp; Market · Danbury, CT</div>
+      <div class="logo-name">Amigo<span>Express</span></div>
+      <div class="logo-sub">
+        <span data-lang="en">Fresh Food · Latin Market · Liquor Store</span>
+        <span data-lang="es">Comida Fresca · Mercado Latino · Licorería</span>
+        <span data-lang="pt">Comida Fresca · Mercado Latino · Loja de Bebidas</span>
+      </div>
+    </div>
+    <div class="header-right fade d2">
+      <div class="hours-badge">
+        <div class="hours-dot"></div>
+        <div class="hours-text">
+          <strong>
+            <span data-lang="en">Open Today</span>
+            <span data-lang="es">Abierto Hoy</span>
+            <span data-lang="pt">Aberto Hoje</span>
+          </strong>
+          <span data-lang="en">Mon–Sat: 9 AM – 9:30 PM &nbsp;|&nbsp; Sun: until 8:30 PM</span>
+          <span data-lang="es">Lun–Sáb: 9 AM – 9:30 PM &nbsp;|&nbsp; Dom: hasta 8:30 PM</span>
+          <span data-lang="pt">Seg–Sáb: 9 AM – 9:30 PM &nbsp;|&nbsp; Dom: até 8:30 PM</span>
+        </div>
+      </div>
+      <div class="header-addr">95 Main St, Danbury, CT</div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO STRIP -->
+<div class="hero-strip">
+  <span>🥖
+    <span data-lang="en">Cubano</span>
+    <span data-lang="es">Cubano</span>
+    <span data-lang="pt">Cubano</span>
+  </span>
+  <span>🌯
+    <span data-lang="en">Amigo Burrito</span>
+    <span data-lang="es">Burrito Amigo</span>
+    <span data-lang="pt">Burrito Amigo</span>
+  </span>
+  <span>🍗
+    <span data-lang="en">Rotisserie</span>
+    <span data-lang="es">Pollo a la Brasa</span>
+    <span data-lang="pt">Frango Assado</span>
+  </span>
+  <span>🌮
+    <span data-lang="en">Fresh Tacos</span>
+    <span data-lang="es">Tacos Frescos</span>
+    <span data-lang="pt">Tacos Frescos</span>
+  </span>
+  <span>🍺
+    <span data-lang="en">Liquor Store</span>
+    <span data-lang="es">Licorería</span>
+    <span data-lang="pt">Bebidas</span>
+  </span>
+</div>
+
+<!-- MENU HIGHLIGHTS -->
+<div class="menu-bg">
+  <div class="wrap">
+    <p class="sec-eyebrow">
+      <span data-lang="en">Our Menu</span>
+      <span data-lang="es">Nuestro Menú</span>
+      <span data-lang="pt">Nosso Cardápio</span>
+    </p>
+    <h2 class="sec-title">
+      <span data-lang="en">Fresh Food, Made Daily</span>
+      <span data-lang="es">Comida Fresca, Hecha a Diario</span>
+      <span data-lang="pt">Comida Fresca, Feita Todo Dia</span>
+    </h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <span class="menu-icon">🥖</span>
+        <div class="menu-name">
+          <span data-lang="en">Cubano</span>
+          <span data-lang="es">Cubano</span>
+          <span data-lang="pt">Cubano</span>
+        </div>
+        <div class="menu-desc">
+          <span data-lang="en">A house favorite — pressed Cuban sandwich done right</span>
+          <span data-lang="es">El favorito de la casa — sándwich cubano prensado como se debe</span>
+          <span data-lang="pt">O favorito da casa — sanduíche cubano prensado do jeito certo</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🌯</span>
+        <div class="menu-name">
+          <span data-lang="en">Amigo Burrito</span>
+          <span data-lang="es">Burrito Amigo</span>
+          <span data-lang="pt">Burrito Amigo</span>
+        </div>
+        <div class="menu-desc">
+          <span data-lang="en">Stuffed with fresh ingredients, our signature wrap</span>
+          <span data-lang="es">Relleno de ingredientes frescos, nuestro wrap estrella</span>
+          <span data-lang="pt">Recheado com ingredientes frescos, nosso wrap especial</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🌮</span>
+        <div class="menu-name">
+          <span data-lang="en">Fresh Tacos</span>
+          <span data-lang="es">Tacos Frescos</span>
+          <span data-lang="pt">Tacos Frescos</span>
+        </div>
+        <div class="menu-desc">
+          <span data-lang="en">Made fresh daily with authentic Latin flavors</span>
+          <span data-lang="es">Hechos frescos a diario con sabores latinos auténticos</span>
+          <span data-lang="pt">Feitos frescos diariamente com sabores latinos autênticos</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🍗</span>
+        <div class="menu-name">
+          <span data-lang="en">Rotisserie</span>
+          <span data-lang="es">Pollo a la Brasa</span>
+          <span data-lang="pt">Frango Assado</span>
+        </div>
+        <div class="menu-desc">
+          <span data-lang="en">Slow-roasted rotisserie chicken, perfectly seasoned</span>
+          <span data-lang="es">Pollo asado lentamente, perfectamente condimentado</span>
+          <span data-lang="pt">Frango assado lentamente, temperado na medida certa</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🥪</span>
+        <div class="menu-name">
+          <span data-lang="en">Deli Sandwiches</span>
+          <span data-lang="es">Sándwiches de Deli</span>
+          <span data-lang="pt">Sanduíches de Delicatessen</span>
+        </div>
+        <div class="menu-desc">
+          <span data-lang="en">Huge selection of fresh-made sandwiches to order</span>
+          <span data-lang="es">Gran variedad de sándwiches frescos a pedido</span>
+          <span data-lang="pt">Grande variedade de sanduíches frescos sob pedido</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🍺</span>
+        <div class="menu-name">
+          <span data-lang="en">Liquor Store</span>
+          <span data-lang="es">Licorería</span>
+          <span data-lang="pt">Loja de Bebidas</span>
+        </div>
+        <div class="menu-desc">
+          <span data-lang="en">Adjacent liquor store with a wide selection</span>
+          <span data-lang="es">Licorería adyacente con amplia selección</span>
+          <span data-lang="pt">Loja de bebidas ao lado com ampla seleção</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="feat-bg">
+  <div class="wrap">
+    <p class="sec-eyebrow">
+      <span data-lang="en">Why Amigo Express</span>
+      <span data-lang="es">Por Qué Amigo Express</span>
+      <span data-lang="pt">Por Que Amigo Express</span>
+    </p>
+    <h2 class="sec-title">
+      <span data-lang="en">More Than a Deli.</span>
+      <span data-lang="es">Más Que un Deli.</span>
+      <span data-lang="pt">Mais do Que um Delicatessen.</span>
+    </h2>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <span class="feat-icon">🌿</span>
+        <div class="feat-title">
+          <span data-lang="en">Always Fresh</span>
+          <span data-lang="es">Siempre Fresco</span>
+          <span data-lang="pt">Sempre Fresco</span>
+        </div>
+        <div class="feat-desc">
+          <span data-lang="en">Food prepared fresh daily. No shortcuts, no compromises — clean kitchen, quality ingredients.</span>
+          <span data-lang="es">Comida preparada fresca a diario. Sin atajos, sin compromisos — cocina limpia, ingredientes de calidad.</span>
+          <span data-lang="pt">Comida preparada fresca todos os dias. Sem atalhos, sem compromissos — cozinha limpa, ingredientes de qualidade.</span>
+        </div>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">🌎</span>
+        <div class="feat-title">
+          <span data-lang="en">Latin Market</span>
+          <span data-lang="es">Mercado Latino</span>
+          <span data-lang="pt">Mercado Latino</span>
+        </div>
+        <div class="feat-desc">
+          <span data-lang="en">Authentic Latin products, imports from Ecuador and beyond — your neighborhood market in Danbury.</span>
+          <span data-lang="es">Productos latinos auténticos, importaciones de Ecuador y más — su mercado del vecindario en Danbury.</span>
+          <span data-lang="pt">Produtos latinos autênticos, importações do Equador e mais — seu mercado do bairro em Danbury.</span>
+        </div>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">⏰</span>
+        <div class="feat-title">
+          <span data-lang="en">Open Late</span>
+          <span data-lang="es">Abierto Hasta Tarde</span>
+          <span data-lang="pt">Aberto Até Tarde</span>
+        </div>
+        <div class="feat-desc">
+          <span data-lang="en">Open until 9:30 PM Monday through Saturday — so you can grab a great meal even after a long day.</span>
+          <span data-lang="es">Abierto hasta las 9:30 PM de lunes a sábado — para que puedas comer bien incluso después de un largo día.</span>
+          <span data-lang="pt">Aberto até 21h30 de segunda a sábado — para você comer bem mesmo depois de um longo dia.</span>
+        </div>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">⭐</span>
+        <div class="feat-title">
+          <span data-lang="en">Highly Rated</span>
+          <span data-lang="es">Muy Bien Calificado</span>
+          <span data-lang="pt">Muito Bem Avaliado</span>
+        </div>
+        <div class="feat-desc">
+          <span data-lang="en">A top-rated local spot with a loyal community of customers who keep coming back for the food and service.</span>
+          <span data-lang="es">Un lugar local muy valorado con una comunidad fiel de clientes que regresan por la comida y el servicio.</span>
+          <span data-lang="pt">Um local muito bem avaliado com uma comunidade fiel de clientes que voltam pela comida e pelo atendimento.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div class="reviews-bg">
+  <div class="wrap">
+    <p class="sec-eyebrow">
+      <span data-lang="en">Customer Reviews</span>
+      <span data-lang="es">Reseñas de Clientes</span>
+      <span data-lang="pt">Avaliações de Clientes</span>
+    </p>
+    <h2 class="sec-title">
+      <span data-lang="en">What People Are Saying</span>
+      <span data-lang="es">Lo Que Dicen Nuestros Clientes</span>
+      <span data-lang="pt">O Que Nossos Clientes Dizem</span>
+    </h2>
+
+    <div class="rating-bar">
+      <div class="big-score">4.5</div>
+      <div>
+        <div class="score-stars">★★★★½</div>
+        <div class="score-note">
+          <span data-lang="en">Based on Google Reviews · 95 Main St, Danbury CT</span>
+          <span data-lang="es">Basado en reseñas de Google · 95 Main St, Danbury CT</span>
+          <span data-lang="pt">Com base nas avaliações do Google · 95 Main St, Danbury CT</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-grid">
+
+      <div class="rc">
+        <div class="rc-head">
+          <div class="rc-name">Emily Mojica</div>
+          <div class="rc-date">4 years ago<br>Local Guide · 26 reviews</div>
+        </div>
+        <div class="rc-stars">★★★★★</div>
+        <div class="rc-body">
+          <span data-lang="en">Shipping from Ecuador in less than 4 days — it was already here!!!!</span>
+          <span data-lang="es">¡¡¡¡El envío desde Ecuador llegó en menos de 4 días — ya estaba aquí!!!!</span>
+          <span data-lang="pt">Envio do Equador em menos de 4 dias — já estava aqui!!!!</span>
+        </div>
+        <div class="rc-translated">
+          <span data-lang="en">Translated from Spanish</span>
+          <span data-lang="es">Escrito en español</span>
+          <span data-lang="pt">Traduzido do espanhol</span>
+        </div>
+      </div>
+
+      <div class="rc">
+        <div class="rc-head">
+          <div class="rc-name">Andrés Quizhpi</div>
+          <div class="rc-date">4 years ago<br>Local Guide · 13 reviews</div>
+        </div>
+        <div class="rc-stars">★★★★★</div>
+        <div class="rc-body">
+          <span data-lang="en">Very good.</span>
+          <span data-lang="es">Muy bueno.</span>
+          <span data-lang="pt">Muito bom.</span>
+        </div>
+        <div class="rc-translated">
+          <span data-lang="en">Translated from Spanish</span>
+          <span data-lang="es">Escrito en español</span>
+          <span data-lang="pt">Traduzido do espanhol</span>
+        </div>
+      </div>
+
+      <div class="rc">
+        <div class="rc-head">
+          <div class="rc-name">LUKIS DJ</div>
+          <div class="rc-date">3 years ago<br>Local Guide · 19 reviews</div>
+        </div>
+        <div class="rc-stars">★★★★★</div>
+        <div class="rc-body">
+          <span data-lang="en">Excellent service.</span>
+          <span data-lang="es">Excelente servicio.</span>
+          <span data-lang="pt">Excelente serviço.</span>
+        </div>
+        <div class="rc-translated">
+          <span data-lang="en">Translated from Spanish</span>
+          <span data-lang="es">Escrito en español</span>
+          <span data-lang="pt">Traduzido do espanhol</span>
+        </div>
+      </div>
+
+      <div class="rc">
+        <div class="rc-head">
+          <div class="rc-name">PAUCAR</div>
+          <div class="rc-date">3 years ago<br>Local Guide · 307 reviews</div>
+        </div>
+        <div class="rc-stars">★★★☆☆</div>
+        <div class="rc-body">
+          <span data-lang="en">A little expensive, but it's ok.</span>
+          <span data-lang="es">Un poco caro, pero está bien.</span>
+          <span data-lang="pt">Um pouco caro, mas tudo bem.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-bg">
+  <div class="wrap">
+    <p class="sec-eyebrow">
+      <span data-lang="en">Find Us</span>
+      <span data-lang="es">Encuéntranos</span>
+      <span data-lang="pt">Nos Encontre</span>
+    </p>
+    <h2 class="sec-title">
+      <span data-lang="en">Come Visit Us in Danbury</span>
+      <span data-lang="es">Visítenos en Danbury</span>
+      <span data-lang="pt">Venha nos Visitar em Danbury</span>
+    </h2>
+    <div class="contact-grid">
+      <div class="info-list">
+        <div class="info-item">
+          <div class="ii-icon">📍</div>
+          <div>
+            <div class="ii-label"><span data-lang="en">Address</span><span data-lang="es">Dirección</span><span data-lang="pt">Endereço</span></div>
+            <div class="ii-val">95 Main St, Danbury, CT</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="ii-icon">🕐</div>
+          <div>
+            <div class="ii-label"><span data-lang="en">Hours</span><span data-lang="es">Horario</span><span data-lang="pt">Horário</span></div>
+            <div class="ii-val">
+              <span data-lang="en">Mon – Sat: 9:00 AM – 9:30 PM<br>Sunday: 9:00 AM – 8:30 PM</span>
+              <span data-lang="es">Lun – Sáb: 9:00 AM – 9:30 PM<br>Domingo: 9:00 AM – 8:30 PM</span>
+              <span data-lang="pt">Seg – Sáb: 9:00 AM – 9:30 PM<br>Domingo: 9:00 AM – 8:30 PM</span>
+            </div>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="ii-icon">🌍</div>
+          <div>
+            <div class="ii-label"><span data-lang="en">Languages</span><span data-lang="es">Idiomas</span><span data-lang="pt">Idiomas</span></div>
+            <div class="ii-val">English &nbsp;·&nbsp; Español &nbsp;·&nbsp; Português</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="ii-icon">🗺️</div>
+          <div>
+            <div class="ii-label"><span data-lang="en">Directions</span><span data-lang="es">Cómo Llegar</span><span data-lang="pt">Como Chegar</span></div>
+            <div class="ii-val">
+              <a href="https://maps.google.com/?q=95+Main+St,+Danbury,+CT" target="_blank">
+                <span data-lang="en">Open in Google Maps →</span>
+                <span data-lang="es">Abrir en Google Maps →</span>
+                <span data-lang="pt">Abrir no Google Maps →</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <iframe class="map-frame"
+        src="https://www.google.com/maps?q=95+Main+St,+Danbury,+CT&output=embed"
+        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Amigo Express Location"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">Amigo<span>Express</span></div>
+  <p>95 Main St, Danbury, CT &nbsp;·&nbsp;
+    <span data-lang="en">Deli · Market · Liquor Store &nbsp;·&nbsp; © 2025 All Rights Reserved</span>
+    <span data-lang="es">Deli · Mercado · Licorería &nbsp;·&nbsp; © 2025 Todos los Derechos Reservados</span>
+    <span data-lang="pt">Deli · Mercado · Bebidas &nbsp;·&nbsp; © 2025 Todos os Direitos Reservados</span>
+  </p>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang);
+    });
+  }
+</script>
+</body>
+</html>
